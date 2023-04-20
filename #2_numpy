@@ -1,0 +1,449 @@
+#numpy install 
+import numpy as np
+
+#array creation 
+test_array = np.array([1,4,5,8], float) #np.array로 배열을 생성. numpy 는 리스트와 다르게 하나의 데이터 타입만 배열에 넣을 수 있음. 
+print(test_array) 
+type(test_array[3])
+
+
+a = [1,2,3,4,5]
+a = np.array(a,int) 
+
+test_array = np.array(["1","2",5,8], float)
+test_array
+
+
+type(test_array[3]) #float64 : 64 bit = 8 byte
+
+
+a = 1
+b = 1
+a is b #true 반환. a가 1을 가진게 아니라 1이라는 주소값을 가진 것. 
+
+a = 300
+b = 300 
+a is b #false반환
+
+
+a = [1,2,3,4,5]
+b = [1,2,3,4,5]
+a[0] is b[0] #ture,, ,a,b 둘다 1이라는 주소값으로 같이감. 
+
+a = np.array(a) 
+b = np.array(b) 
+a[0] is b[0] #완전히 새로운 값을 생성해서 넣는 것이라고 보면 됨. 그래서 false반환
+
+
+#dtype : array전체의 데이터 타입을 반환
+test_array.dtype 
+
+
+type(test_array[0])
+
+#shape
+test_array.shape
+
+a = [[1,2,3],[4,5,7]] #두 행이 크기가 같아야 array 로 인식 
+np.array(a)
+np.array(a).shape
+
+#vector 
+vector = [1,2,3,4,5]
+np.array(vector,int).shape
+
+
+#matrix 
+matrix = [[1,2,3,4],[1,2,3,4],[1,2,3,4]]
+np.array(matrix,int).shape
+
+#tensor 
+tensor = [[[1,2,3,4],[1,2,3,4],[1,2,3,4]],
+         [[1,2,3,4],[1,2,3,4],[1,2,3,4]],
+         [[1,2,3,4],[1,2,3,4],[1,2,3,4]],[[1,2,3,4],[1,2,3,4],[1,2,3,4]]]
+np.array(tensor, int).shape
+
+
+
+np.array(tensor,int).ndim #3rd order tensor 
+
+np.array(tensor,int).size  #shape 모두 곱 
+
+
+#dtype 연습
+np.array([[1,2,3],[4.5,5,6]], dtype = int ) #모든 data integer로 선언
+
+
+np.array([[1,2,3],[4.5,"5","6"]], dtype = np.float32)
+
+
+#C에 compatible하다는 걸 보여줌. 
+
+a = np.array([[1,2,3],[4,5,6]],dtype = np.int8)
+a.dtype
+
+
+np.array([[1,2,3],[4.5,"5","6"]], dtype = np.float32). 
+#4*8니까 4씩 6개의 데이터여서 24바이트 (8비트 = 1바이트, 32비트 = 4바이트, 64비트 = 8바이트)
+#이렇게 용량을 계산할 수 있지만 잘 쓰진 않음
+
+
+
+
+[Handling shape
+
+test_matrix  = [[1,2,3,4],[1,2,3,4]]
+np.array(test_matrix).shape
+
+np.array(test_matrix).reshape(8,) #출력만 변경되지 실제로 변경되지 않음. 재할당이 필요함.
+
+np.array(test_matrix).reshape(-1,4) #-1 : row 갯수 선정 
+np.array(test_matrix).reshape(-1,2)
+
+np.array(test_matrix).reshape(2,2,2) 
+
+
+#flatten
+
+test_matrix = [[[1,2,3,4],[1,2,5,8]],[[1,2,3,4],[1,2,4,6]]]
+np.array(test_matrix).flatten()
+
+np.array(test_matrix).flatten().shape
+
+np.array(test_matrix).flatten().size
+
+
+
+
+[indexing]
+import numpy as np
+#indexing 
+a = np.array([[1,2,3],[4.5,5,6]],int)
+print(a) 
+
+print(a[0,0]) #two dimensional array representation 1
+print(a[1][2]) # two dimensional array represenatation 2 ( 사이즈때랑 다른 순서) 
+
+a[0,0] = 12 #matrix (0,0) 에 12 할당
+a[0][0] = 12 #같은 방식 
+
+
+#slicing 
+a = np.array([[1,2,3,4,5],[3,4,5,5,6]],int)
+a[:,2:]
+
+
+a[1:3] #2row만
+
+#연습
+test_example = np.array([[1,2,3,4,5],[6,7,8,9,10]], int)
+test_example
+
+test_example[1] #1st row
+test_example[1:3] #1st and 2nd row 
+
+
+#연습
+a = np.arange(100).reshape(10,10) #0에서 99까지의 데이터를 10*10 array로
+print(a) 
+
+a[:,-1] #마지막 column 에 해당하는 데이터들 일렬로 뽑음 . row 형태 . 전체 row 에 대해서 각 끝에 있는 데이터들 가져오기.
+a[:,-1].reshape(-1,1) #마지막 column에 해당하는 데이터들 일렬로 뽑은 걸 column형태로 변경 
+a[:,-1:-2:-1] #-부터 -2까지 -1 step으로 
+
+
+[creation function]
+#arange 
+list(range(0,10,3))
+type(list(range(30)))
+
+np.arange(30) 
+list(np.arange(0,10,0.5))
+np.arange(30).reshape(5,6)
+
+#empty 
+np.empty(shape=(10,), dtype = np.int8)
+
+#something like
+test_matrix = np.arange(100).reshape(5,-1)
+np.ones_like(test_matrix) 
+
+np.zeros_like(test_matrix) 
+np.empty_like(test_matrix ,dtype = np.float32) 
+
+#identity 
+np.identity(n = 3, dtype = np.int8)
+
+#eye 
+np.eye(N=3, M =5, dtype = np.int8)
+np.eye(N=3, M =5, k =2, dtype = np.int8)
+#diag
+matrix = np.arange(9).reshape(3,3) 
+matrix 
+
+np.diag(matrix) 
+
+np.diag(matrix,k=2) #column 기준으로 diagonal 해줌. image 처리도 가능.
+#random sampling 
+np.random.uniform(0,1,10).reshape(2,5) #균등분포 
+
+np.random.normal(0,1,10).reshape(2,5) #정규분포 N(0,1) 
+#normal(loc=0.0, scale = 1.0, size = None) : loc 평균, scale 편차
+#ranint : int값만. 
+#여러 방법이 있음. random sampling여러방법이 있음. 
+
+
+[operation function ]
+#sum
+test_array = np.arange(1,11) 
+test_array.sum(dtype = np.float) 
+
+#axis 
+test_array = np.arange(1,13).reshape(3,4) 
+test_array
+test_array.sum(axis = 1), test_array.sum(axis = 0)
+
+#3dimensional 
+third_order_tensor = np.array([test_array, test_array, test_array],int)
+third_order_tensor
+
+third_order_tensor.sum(axis = 0)
+third_order_tensor.sum(axis = 1)
+third_order_tensor.sum(axis = 2)
+
+#mean and std
+test_array = np.arange(1,13).reshape(3,4) 
+test_array
+test_array.mean(), test_array.mean(axis = 0 )
+
+test_array.std(), test_array.std(axis = 0)
+
+#exponential 
+np.exp(test_array) , np.sqrt(test_array) 
+
+#concatenate 
+a = np.array([1,2,3])
+b = np.array([2,3,4])
+np.vstack((a,b))
+
+np.hstack((a,b))
+
+a = np.array([[1],[2],[3]])
+b = np.array([[1],[2],[3]])
+np.hstack((a,b)) 
+np.vstack((a,b))
+
+np.concatenate((a,b),axis = 0 ) #horizontal stack 
+np.concatenate((a,b),axis = 1) #vertical stack 
+
+
+[array operation]
+#array operation 
+a = np.array([[1,2,3],[2,3,4]], float)
+a + a
+a*a
+
+matrix_a = np.arange(1,13).reshape(3,4)
+matrix_a*matrix_a
+
+# dot product 
+test_a = np.arange(1,7).reshape(2,3)
+test_b = np.arange(7,13).reshape(3,2)
+test_a.dot(test_b)
+
+#transpose 
+a = np.arange(1,7).reshape(2,3) 
+a
+a.transpose()
+a.T
+a.dot(a.T) 
+
+#broad casting 
+test_matrix = np.array([[1,2,3],[3,4,5]], int)
+scalar = 3
+
+test_matrix + scalar #모든성분에 3 합 
+test_matrix/scalar
+test_matrix//scalar #몫
+test_matrix&scalar #나머지
+test_matrix**scalar #w제곱
+
+#vector - matrix 
+matrix = np.arange(1,13).reshape(4,3)
+vector = np.arange(10,40,10) 
+
+matrix, vector
+matrix + vector 
+matrix - vector
+matrix * vector 
+
+print(vector) 
+print(vector.reshape(-1,3))
+
+vector.reshape(-1,3).T
+
+
+[numpy performance]
+
+def sclar_vector_product(scalar, vector) : 
+    
+    result = []
+    for value in vector : 
+        result.append(scalar*value) 
+    return result
+
+iteration_max = 1000000
+vector = list(range(iteration_max))
+
+scalar = 2
+
+%timeit sclar_vector_product(scalar,vector) #for loop 성능
+%timeit [scalar*value for value in range(iteration_max)] #list pythonic 성능
+%timeit np.arange(iteration_max)*scalar #numpy 성능 
+
+일반적으로 속도는 
+for loop < list comprehension < numpy 
+
+1억번의 루프에서 4배 이상의 성능차이 
+넘파이는 C로 구현되어있어서 성능을 확보하는 대신 
+파이썬의 특징인 dynamic typing을 포기함. 
+대용량 곗나에서는 가장 흔히 사용 
+concatenate처럼 계산이 아닌, 할당에서는 연산속도의 이점이 없음. 
+
+
+[comparison]
+# all and any 
+a= np.arange(10) 
+np.any(a>5)
+
+np.all(a>5)
+a<4
+
+
+#comparison operation
+test_a = np.array([1,3,4], float)
+test_b = np.array([3,4,5], float)
+test_a > test_b 
+
+test_a == test_b 
+
+#comparison operation 
+a = np.array([1,3,0],float)
+np.logical_and(a>0,a<3)
+
+b = np.array([True, True, False], bool)
+b
+
+np.logical_not(b) #변형 
+
+b = np.array([True, True, False], bool)
+c = np.array([False, True, False],bool)
+np.logical_or(b,c) #둘다 false여야 false
+
+#where
+a = np.array([1,2,-3],int)
+np.where(a>0, 3,2) 
+
+a = np.arange(10)
+np.where(a>5) 
+
+a = np.array([1, np.NaN, np.Inf],float)
+np.isnan(a) 
+np.isfinite(a) 
+#argmax and argmin 
+a = np.array([1,2,3,4,5,6,6,4,4,3])
+np.argmax(a) , np.argmin(a) 
+a = np.array([[1,2,3,4],[3,4,3,2],[3,4,56,2]], int)
+np.argmax(a, axis = 1) , np.argmin(a,axis = 0)
+
+[boolean index]
+test_array = np.array([1,2,3,4,5,6,6],int)
+test_array > 3
+
+test_array[test_array>3] #해당 array만 가져옴
+condition = test_array<3
+test_array[condition]
+
+#fancy index 
+a = np.array([2,3,4,5,6], float)
+b = np.array([2,3,3,3,2,2,1], int) #index값만 가진 array
+a[b] #bracket index, b 배열의 index로 하여 a값 추출
+
+#index 이상의 값이 b에 있을 경우 fancy index가 아님을 알고 error 메세지 전달 
+
+a.take(b) #take 함수 : bracket index와 같음 
+
+#fancy index - matrix 
+a = np.array([[1,4],[1,2],[4,3]],float) 
+b = np.array([0,0,1,1,1,0],int)
+c = np.array([0,1,1,1,1,1],int)
+a[b,c] # b를 row index, c를 col index로 변환하여 표시 
+
+a[b]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

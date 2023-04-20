@@ -1,0 +1,129 @@
+[data handling]
+#CSV read
+line_counter = 0 #파일의 총 줄 수를 세는 변수
+data_header = [] #data 필드값 저장하는 list
+customer_list = [] #customer 개별 list를 저장하는 list
+
+with open('customers.csv') as customer_data: #customer.csv 파일을 customer_data 객체에
+    
+    while 1 : #while 1 : = while True : 
+        data = customer_data.readline()  #한줄씩 data 변수에 저장
+        if not data : #없으면 루프 종료
+            break 
+        
+        if line_counter == 0 : #첫번째 데이터는 데이터의 필드
+            data_header = data.split(",") #데이터 필드는 header list에 저장
+        else : 
+            customer_list.append(data.split(","))
+        
+        line_counter += 1
+        
+        
+        
+print("Header :\t", data_header) 
+print(len(data_header))
+
+for i in range(0,10): #0부터 9까지 10개 출력 
+    print("DAata",i,":\t\t",customer_list[i])
+print(len(customer_list)) #전체 데이터 크기 출력 
+
+
+
+#CSV write
+line_counter = 0 #파일의 총 줄 수를 세는 변수
+data_header = [] #data 필드값 저장하는 list
+employee = []
+customer = None
+customer_USA_only_list = []
+
+with open('customers.csv') as customer_data: #customer.csv 파일을 customer_data 객체에
+    
+    while 1 : #while 1 : = while True : 
+        data = customer_data.readline()  #한줄씩 data 변수에 저장
+        if not data : #없으면 루프 종료
+            break 
+        
+        if line_counter == 0 : #첫번째 데이터는 데이터의 필드
+            data_header = data.split(",") #데이터 필드는 header list에 저장
+        else : 
+            customer = data.split(",")
+            if customer[10].upper() == "USA" : #10번째면 'country' field
+                customer_USA_only_list.append(customer) 
+                
+        line_counter += 1
+
+
+print("Header :\t", data_header) # \t : tap기능
+
+
+for i in range(0,10): 
+    print("Data : \t\t", customer_USA_only_list[i])
+print(len(customer_USA_only_list))
+
+
+
+
+with open("customers_USA_only.csv",'w') as customer_USA_only_csv: #write 기능으로 csv파일 생성
+    for customer in customer_USA_only_list: 
+        customer_USA_only_csv.write(",".join(customer).strip('\n')+'\n') #한줄한줄씩 데이터를 쓰게끔
+        #각 필드에 해당하는 값들의 리스트를 
+        # comman를 사용해서 join 해주고 
+        # 역슬래쉬로 다음 줄 쓰기 
+        
+        # " ".join(customer).strip('\n') 
+        #strip('\n') : 문자에서 빈공간(\n)을 제거해줌 
+        # '\n' : 줄바꿔줌
+        
+        
+        
+# csv 객체로 csv 처리 
+import csv 
+#reader = csv.reader(f, delimiter = ',', quotechar = '"',quoting = csv.QUOTE_ALL)
+
+
+
+
+location_data = []
+header = []
+rownum = 0
+
+#cp949 : window 에서는 대부분 이걸로. 잘 안읽힌다 싶으면 이걸로 앤코딩 된거라고 생각하고 넣어줘야함.
+
+with open("korea_floating_population.csv",'r',encoding = 'cp949') as p_file: 
+    csv_data = csv.reader(p_file) #csv 객체를 활용한 데이터 읽기 (위에 예제는 한 줄씩 따로 읽음)
+    
+    for row in csv_data: 
+        print(row) 
+        if rownum == 0: 
+            header = row #첫번째 데이터 필드 
+        
+        location_num = row[2]
+        print(location_num)
+        if location.find(u"3735")!= -1: #3735가 들어가 있다면 (find 에서 -1을 출력하면 없다는 뜻임) 
+            location_data.append(row)
+        rownum += 1
+        
+        
+        
+        
+        
+        
+        
+        
+        [추가]
+        
+with open("location_floating_population.csv", 'w', encoding = 'utf8') as l_p_file: 
+    writer = csv.writer(
+        l_p_file, delimiter = '\t',
+        quotechar = "'", quoting = csv.QUOTE_ALL) #전체 데이터 다 quotation 해줌. 따옴표. 
+    # \t 는 역슬래쉬 t만큼 띄어줌. '-'로 해주면 데이터 사이사이에 - 가 들어가줌. 콤마가 제일 일반적
+    #QUOTE_MINIMAL로 해주면 최소한으로 들어간다.
+    #추가로 lineterminator='\n'이 있음.  '\r\n' : 두줄씩 띄어줌. '\n' :한 줄 씩 띄어줌 
+    
+    writer.writerow(header)  #제목 필드 파일에 쓰기 
+    for row in location_data: 
+        writer.writerow(row) 
+        
+#개인적으로 csv 쓸 일은 별로 없는데 quotechar, quoting , encoding, lineterminator 등 개념은 익힐 것. 
+    
+    
